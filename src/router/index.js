@@ -18,6 +18,11 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path: '/EmployeeManager',
         name: '员工管理',
         component: Index,
         show: true,
@@ -30,7 +35,7 @@ const routes = [
                 name: '员工信息',
                 component: EmployeeManager,
             }
-        ]
+        ],
     },
 
     {
@@ -46,7 +51,7 @@ const routes = [
                 name: '部门信息',
                 component: DeptManager
             },
-        ]
+        ],
     },
 
     {
@@ -62,7 +67,7 @@ const routes = [
                 name: '角色信息',
                 component: RoleManager
             },
-        ]
+        ],
     },
     {
         path: "/Login",
@@ -70,7 +75,7 @@ const routes = [
     },
     {
         path: '/CustomerManager',
-        icon: 'el-icon-s-cooperation',
+        icon: 'el-icon-user',
         component: Index,
         name: '客户管理',
         show: true,
@@ -85,7 +90,7 @@ const routes = [
     },
     {
         path: '/InterviewManager',
-        icon: 'el-icon-s-cooperation',
+        icon: 'el-icon-video-camera',
         component: Index,
         name: '访谈管理',
         show: true,
@@ -96,11 +101,11 @@ const routes = [
                 name: '访谈信息',
                 component: InterviewManager
             },
-        ]
+        ],
     },
     {
         path: '/TaskManager',
-        icon: 'el-icon-s-cooperation',
+        icon: 'el-icon-s-order',
         component: Index,
         name: '任务管理',
         show: true,
@@ -111,7 +116,7 @@ const routes = [
                 name: '任务信息',
                 component: TaskManager
             },
-        ]
+        ],
     },
 ]
 
@@ -120,5 +125,20 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes
 })
+//对每次访问之前都要先看是否已经登录
+router.beforeEach((to,from,next)=>{
+    if(to.path.startsWith('/Login')){
+        window.sessionStorage.removeItem('access-token');
+        next();
+    }else{
+        let token = window.sessionStorage.getItem('access-token');
+        if(!token){
+            //未登录  跳回主页面
+            next({path:'/Login'});
+        }else{
+            next();
+        }
+    }
 
+});
 export default router

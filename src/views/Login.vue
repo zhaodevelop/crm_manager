@@ -59,14 +59,13 @@
                                 formData.append('password', this.ruleForm2.password),
                                 axios.post("http://localhost:8181/Employee/login", formData)
                                     .then(function (resp) {
-                                        if (resp.data == 1) {
+                                        if (resp.data.code == 200) {
                                             _this.logining = false;
-                                            console.log( _this.ruleForm2.account)
-                                            // sessionStorage.setItem('employee', _this.ruleForm2.account);
+                                            sessionStorage.setItem('access-token', JSON.stringify(resp.data.result));
                                             _this.$router.push({path: '/EmployeeManager'});
                                         } else {
                                             _this.logining = false;
-                                            _this.$alert('username or password wrong!', 'info', {
+                                            _this.$alert('账号或密码有误，请重新输入！', 'info', {
                                                 confirmButtonText: 'ok'
                                             })
                                         }

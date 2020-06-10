@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1>客户管理</h1>
         <!--多条件查询-->
         <el-form :inline="true" :model="formInline" ref="formInline" class="demo-form-inline">
             <el-form-item label="客户名称" prop="custName">
@@ -49,40 +50,40 @@
         </el-row>
         <!--修改弹窗-->
         <el-row>
-        <el-dialog title="修改客户" :visible.sync="updateWindow">
-            <el-form label-width="100px" class="demo-ruleForm"
-                     size="mini">
-                <el-form-item label="客户ID" prop="custId">
-                    <el-input v-model="ruleForm.updateData.custId" readonly></el-input>
-                </el-form-item>
-                <el-form-item label="客户名称" prop="custName">
-                    <el-input v-model="ruleForm.updateData.custName"></el-input>
-                </el-form-item>
-                <el-form-item label="客户来源" prop="custSource">
-                    <el-input v-model="ruleForm.updateData.custSource"></el-input>
-                </el-form-item>
-                <el-form-item label="性别" prop="custSex">
-                    <el-input v-model="ruleForm.updateData.custSex" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="电话" prop="custTel">
-                    <el-input v-model="ruleForm.updateData.custTel" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="custEmail">
-                    <el-input v-model="ruleForm.updateData.custEmail" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="地址" prop="custAddress">
-                    <el-input v-model="ruleForm.updateData.custAddress"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="updateForm('ruleForm')">确认修改</el-button>
-                    <el-button @click="resetForm('ruleForm')">重置</el-button>
-                    <el-button @click="updateWindow = false">取 消</el-button>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-            </div>
-        </el-dialog>
-    </el-row>
+            <el-dialog title="修改客户" :visible.sync="updateWindow">
+                <el-form label-width="100px" class="demo-ruleForm"
+                         size="mini">
+                    <el-form-item label="客户ID" prop="custId">
+                        <el-input v-model="ruleForm.updateData.custId" readonly></el-input>
+                    </el-form-item>
+                    <el-form-item label="客户名称" prop="custName">
+                        <el-input v-model="ruleForm.updateData.custName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="客户来源" prop="custSource">
+                        <el-input v-model="ruleForm.updateData.custSource"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别" prop="custSex">
+                        <el-input v-model="ruleForm.updateData.custSex" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="电话" prop="custTel">
+                        <el-input v-model="ruleForm.updateData.custTel" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="邮箱" prop="custEmail">
+                        <el-input v-model="ruleForm.updateData.custEmail" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="地址" prop="custAddress">
+                        <el-input v-model="ruleForm.updateData.custAddress"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="updateForm('ruleForm')">确认修改</el-button>
+                        <el-button @click="resetForm('ruleForm')">重置</el-button>
+                        <el-button @click="updateWindow = false">取 消</el-button>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                </div>
+            </el-dialog>
+        </el-row>
         <!--表格数据-->
         <el-table
                 :data="tableData"

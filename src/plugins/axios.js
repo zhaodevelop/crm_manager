@@ -12,6 +12,9 @@ let config = {
     // baseURL: process.env.baseURL || process.env.apiUrl || ""
     // timeout: 60 * 1000, // Timeout
     // withCredentials: true, // Check cross-site Access-Control
+    withCredentials: true,//跨域请求设置
+    baseURL: process.env.BASE_API, // api 的 base_url
+    timeout: 5000 // 请求超时时间
 };
 
 const _axios = axios.create(config);
