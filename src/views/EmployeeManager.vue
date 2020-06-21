@@ -4,18 +4,18 @@
         <!--多条件查询-->
         <el-form :inline="true" :model="formInline" ref="formInline" class="demo-form-inline">
             <el-form-item label="姓名" prop="empName">
-                <el-input placeholder="请输入姓名" style="width: 140px;" size="small"
+                <el-input placeholder="请输入姓名" style="width: 140px;" size="small" clearable
                           v-model="formInline.empName"></el-input>
             </el-form-item>
             <el-form-item label="账号" prop="account">
-                <el-input placeholder="请输入账号" style="width: 140px;" size="small"
+                <el-input placeholder="请输入账号" style="width: 140px;" size="small" clearable
                           v-model="formInline.account"></el-input>
             </el-form-item>
             <el-form-item label="角色" prop="empRoleId">
-                <el-select v-model="formInline.roleData.empRoleId" placeholder="请选择角色" @focus="roleFocus"
+                <el-select v-model="formInline.empRoleId" placeholder="请选择角色" @focus="roleFocus"
                            @change="
                            (formInline.roleData.roleName)" size="small" style="width: 160px;"
-                >
+                           value-key="value" clearable>
                     <el-option v-for="item in formInline.roleData"
                                :key="item.roleId"
                                :value="item.roleId"
@@ -23,21 +23,21 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="部门" prop="department" size="small">
-                <el-select v-model="formInline.deptData.empDeptId" placeholder="请选择部门" @focus="deptFocus"
+                <el-select v-model="formInline.empDeptId" placeholder="请选择部门" @focus="deptFocus"
                            style="width: 160px;"
-                           @change="deptChange(formInline.deptData.deptName)">
+                           @change="deptChange(formInline.deptData.deptName)" value-key="value" clearable>
                     <el-option v-for="item in formInline.deptData" :key="item.deptId" :label="item.deptName"
                                :value="item.deptId"
                     ></el-option>
                 </el-select>
             </el-form-item>
             <el-button type="primary" round size="medium" @click="onsubmit('formInline')">查询</el-button>
-            <el-button type="primary" @click="dialogFormVisible = true" round>添加</el-button>
+            <el-button type="primary" @click="dialogAddVisible = true,addClear" round>添加</el-button>
             <el-button type="danger" @click="delArray" round>批量删除</el-button>
         </el-form>
         <!--添加弹窗-->
         <el-row>
-            <el-dialog title="新建员工" :visible.sync="dialogFormVisible">
+            <el-dialog title="新建员工" :visible.sync="dialogAddVisible">
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"
                          size="mini">
                     <el-form-item label="员工名称" prop="empName">
@@ -67,9 +67,8 @@
                     <el-form-item label="家庭地址:" prop="empAddress">
                         <el-input v-model="ruleForm.empAddress"></el-input>
                     </el-form-item>
-                    <el-form-item label="角色" prop="role">
-                        <el-select v-model="ruleForm.roleData.roleName" placeholder="请选择角色" @focus="roleFocus"
-
+                    <el-form-item label="角色" prop="empRoleId">
+                        <el-select v-model="ruleForm.empRoleId" placeholder="请选择角色" @focus="roleFocus" value-key="value"
                         >
                             <el-option v-for="item in ruleForm.roleData"
                                        :key="item.roleId"
@@ -77,9 +76,9 @@
                                        :label="item.roleName"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="部门" prop="department">
-                        <el-select v-model="ruleForm.deptData.deptName" placeholder="请选择部门" @focus="deptFocus"
-                                   >
+                    <el-form-item label="部门" prop="empDeptId">
+                        <el-select v-model="ruleForm.empDeptId" placeholder="请选择部门" @focus="deptFocus" value-key="value"
+                        >
                             <el-option v-for="item in ruleForm.deptData" :key="item.deptId" :label="item.deptName"
                                        :value="item.deptId"
                             ></el-option>
@@ -130,8 +129,8 @@
                     <el-form-item label="家庭地址:" prop="empAddress">
                         <el-input v-model="ruleForm.empAddress"></el-input>
                     </el-form-item>
-                    <el-form-item label="角色" prop="role.roleId">
-                        <el-select v-model="ruleForm.roleData.role" placeholder="请选择角色" @focus="roleFocus"
+                    <el-form-item label="角色" prop="empRoleId">
+                        <el-select v-model="ruleForm.empRoleId" placeholder="请选择角色" @focus="roleFocus" value-key="value"
                         >
                             <el-option v-for="item in ruleForm.roleData"
                                        :key="item.roleId"
@@ -139,8 +138,8 @@
                                        :label="item.roleName"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="部门" prop="department.deptId">
-                        <el-select v-model="ruleForm.deptData.department" placeholder="请选择部门" @focus="deptFocus"
+                    <el-form-item label="部门" prop="empDeptId">
+                        <el-select v-model="ruleForm.empDeptId" placeholder="请选择部门" @focus="deptFocus" value-key="value"
                         >
                             <el-option v-for="item in ruleForm.deptData" :key="item.deptId" :label="item.deptName"
                                        :value="item.deptId"
@@ -149,7 +148,6 @@
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="updateForm('ruleForm')">确认修改</el-button>
-                        <el-button @click="resetForm('ruleForm')">重置</el-button>
                         <el-button @click="updateWindow = false">取 消</el-button>
                     </el-form-item>
                 </el-form>
@@ -257,9 +255,6 @@
 <script>
     export default {
         methods: {
-            // Change(val) {
-            //     console.log(val);
-            // },
             editEmp(index, row, tableData) {
                 this.ruleForm.updateData = JSON.parse(JSON.stringify(this.ruleForm));
                 this.ruleForm.empId = tableData[index].empId
@@ -271,24 +266,23 @@
                 this.ruleForm.empTel = tableData[index].empTel
                 this.ruleForm.empEmail = tableData[index].empEmail
                 this.ruleForm.empAddress = tableData[index].empAddress
-                this.ruleForm.roleData.role = tableData[index].role.roleName
-                this.ruleForm.deptData.department = tableData[index].department.deptName
+                this.ruleForm.empRoleId = row.role.roleId
+                this.ruleForm.empDeptId = row.department.deptId
             },
             /*修改表单*/
             updateForm() {
-                console.log(this.ruleForm.deptData.department.deptId)
                 axios.put("http://localhost:8181/Employee/updateEmpById", {
-                    empId:this.ruleForm.empId,
-                    empName:this.ruleForm.empName,
-                    account:this.ruleForm.account,
-                    password:this.ruleForm.password,
-                    checkPass:this.ruleForm.checkPass,
-                    empSex:this.ruleForm.empSex,
-                    empTel:this.ruleForm.empTel,
-                    empEmail:this.ruleForm.empEmail,
-                    empAddress:this.ruleForm.empAddress,
-                    role:this.ruleForm.roleData.role,
-                    department:this.ruleForm.deptData.department,
+                    empId: this.ruleForm.empId,
+                    empName: this.ruleForm.empName,
+                    account: this.ruleForm.account,
+                    password: this.ruleForm.password,
+                    checkPass: this.ruleForm.checkPass,
+                    empSex: this.ruleForm.empSex,
+                    empTel: this.ruleForm.empTel,
+                    empEmail: this.ruleForm.empEmail,
+                    empAddress: this.ruleForm.empAddress,
+                    role: this.ruleForm.empRoleId,
+                    department: this.ruleForm.empDeptId,
                 }).then(function (resp) {
                     if (resp.data == 1) {
                         alert("修改成功！", window.location.href = "/EmployeeManager");
@@ -319,8 +313,8 @@
                             formData.append('empTel', this.ruleForm.empTel),
                             formData.append('empEmail', this.ruleForm.empEmail),
                             formData.append('empAddress', this.ruleForm.empAddress),
-                            formData.append("role.roleId", this.ruleForm.roleData.roleName),
-                            formData.append("department.deptId", this.ruleForm.deptData.deptName),
+                            formData.append("empRoleId", this.ruleForm.empRoleId),
+                            formData.append("empDeptId", this.ruleForm.empDeptId),
                             axios.post("http://localhost:8181/Employee/addEmployee", formData).then(function (resp) {
                                 if (resp.data == 1) {
                                     alert("添加成功！", window.location.href = "/EmployeeManager");
@@ -336,34 +330,17 @@
                 const _this = this
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var informData = new FormData();
-                        const Qs = require('qs');
-                        informData.append('empName', this.formInline.empName),
-                            informData.append('account', this.formInline.account),
-                            informData.append('empRoleId', this.formInline.roleData.empRoleId),
-                            informData.append('empDeptId', this.formInline.deptData.empDeptId),
-                            axios.post("http://localhost:8181/Employee/allEmps/1/4/", informData
-                            ).then(function (resp) {
-                                _this.tableData = resp.data.list
-                                _this.total = resp.data.total
-                            });
+                        var qs = require('querystring')
+                        axios.post("http://localhost:8181/Employee/allEmps/1/4/", qs.stringify(this.formInline)
+                        ).then(function (resp) {
+                            _this.tableData = resp.data.list
+                            _this.total = resp.data.total
+                        });
                     } else {
                         return false;
                     }
                 });
             },
-            // onsubmit() {
-            //     const _this = this
-            //     const Qs = require('qs');
-            //     axios.post("http://localhost:8181/Employee/allEmps/1/4/", {
-            //         params: {
-            //             empName: this.formInline.empName ? this.formInline.empName:'',
-            //             account: this.formInline.account ? this.formInline.account : '',
-            //             empRoleId: this.formInline.roleData.empRoleId ? this.formInline.roleData.empRoleId : '',
-            //             empDeptId: this.formInline.deptData.empDeptId ? this.formInline.deptData.empDeptId : '',
-            //         }
-            //     })
-            // },
             /*重置表单*/
             resetForm(formName) {
                 this.$refs[formName].resetFields();
@@ -432,10 +409,18 @@
                     this.$message.error('很抱歉，当前选中员工信息有关联信息，不可以删除哦！');
                 })
             },
+            addClear() {
+                this.ruleForm = {};
+            }
         },
         created() {
             const _this = this
-            axios.get("http://localhost:8181/Employee/allEmps/1/4/")
+            axios.get("http://localhost:8181/Employee/allEmps/1/4/", {
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                withCredentials: true
+            })
                 .then(function (resp) {
                     _this.tableData = resp.data.list
                     _this.total = resp.data.total
@@ -447,8 +432,8 @@
                 updateWindow: false,
                 total: null,
                 tableData: null,
-                dialogTableVisible: false,
                 dialogFormVisible: false,
+                dialogAddVisible: false,
                 ruleForm: {
                     empName: '',
                     account: '',
@@ -458,19 +443,17 @@
                     empTel: '',
                     empEmail: '',
                     empAddress: '',
+                    empRoleId: '',
+                    empDeptId: '',
                     roleData: [{
                         empRoleId: '',
                         roleId: '',
-                        roleName: '',
+                        roleName: ''
                     }],
                     deptData: [{
                         empDeptId: '',
                         deptId: '',
-                        deptName: '',
-                        department:[{
-                            deptId:'',
-                            deptName:''
-                        }]
+                        deptName: ''
                     }],
                 },
                 rules: {
@@ -494,21 +477,11 @@
                         {required: true, message: '请选择性别', trigger: 'change'}
                     ],
                 },
-                formLabelWidth: '120px',
                 formInline: {
                     empName: '',
                     account: '',
-                    roleData: [{
-                        roleId: '',
-                        roleName: '',
-                        empRoleId: ''
-                    }],
-                    deptData: [{
-                        deptId: '',
-                        deptName: '',
-                        empDeptId: ''
-                    }],
-                    empWorkTime: '',
+                    empRoleId: '',
+                    empDeptId: ''
                 },
             }
         },

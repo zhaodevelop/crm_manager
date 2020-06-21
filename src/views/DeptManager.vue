@@ -184,12 +184,11 @@
                 const _this = this
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var informData = new FormData();
-                        informData.append('deptName', this.formInline.deptName),
-                            axios.post("http://localhost:8181/Department/getAllDepts/1/4/", informData).then(function (resp) {
-                                _this.tableData = resp.data.list
-                                _this.total = resp.data.total
-                            });
+                        var qs = require('querystring')
+                        axios.post("http://localhost:8181/Department/getAllDepts/1/4/", qs.stringify(this.formInline)).then(function (resp) {
+                            _this.tableData = resp.data.list
+                            _this.total = resp.data.total
+                        });
                     } else {
                         return false;
                     }
@@ -251,17 +250,7 @@
                 },
                 deptId: '',
                 formInline: {
-                    empName: '',
-                    account: '',
-                    roleData: [{
-                        roleId: '',
-                        roleName: '',
-                    }],
-                    deptData: [{
-                        deptId: '',
-                        deptName: ''
-                    }],
-                    empWorkTime: '',
+                    deptName: ''
                 },
 
             }

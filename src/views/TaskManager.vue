@@ -222,13 +222,13 @@
         </el-table>
         <!--分页-->
         <el-pagination
-                background
-                layout="prev, pager, next"
-                @current-change="page"
-                :page-size="4"
-                :total="total"
-        >
-        </el-pagination>
+            background
+            layout="prev, pager, next"
+            @current-change="page"
+            :page-size="4"
+            :total="total"
+    >
+    </el-pagination>
     </div>
 </template>
 
@@ -374,8 +374,6 @@
         data() {
             return {
                 updateWindow: false,
-                delVisible: null,
-                dialogTableVisible: false,
                 dialogFormVisible: false,
                 total: null,
                 tableData: null,

@@ -222,12 +222,8 @@
                 const _this = this
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var informData = new FormData();
-                        informData.append('custName', this.formInline.custName),
-                            informData.append('empName', this.formInline.empName),
-                            informData.append('interDatetime', this.formInline.interDatetime),
-                            informData.append('endTime', this.formInline.endTime),
-                            axios.post("http://localhost:8181/Interview/getMoreAllInters/1/4/", informData
+                        var qs = require('querystring')
+                            axios.post("http://localhost:8181/Interview/getMoreAllInters/1/4/",  qs.stringify(this.formInline)
                             ).then(function (resp) {
                                 _this.tableData = resp.data.list
                                 _this.total = resp.data.total
@@ -320,11 +316,10 @@
                 total: null,
                 tableData: null,
                 formInline: {
-                    interDatetime: '',
                     custName: '',
                     empName: '',
+                    interDatetime: '',
                     endTime: ''
-
                 },
                 ruleForm: {
                     interInfo: '',

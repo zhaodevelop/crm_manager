@@ -52,34 +52,32 @@
             handleSubmit(event) {
                 const _this = this
                 this.$refs.ruleForm2.validate((valid) => {
-                        if (valid) {
+                    if (valid) {
+                        var formData = new FormData();
+                        formData.append('account', this.ruleForm2.account),
+                            formData.append('password', this.ruleForm2.password),
                             this.logining = true;
-                            var formData = new FormData();
-                            formData.append('account', this.ruleForm2.account),
-                                formData.append('password', this.ruleForm2.password),
-                                axios.post("http://localhost:8181/Employee/login", formData)
-                                    .then(function (resp) {
-                                        if (resp.data.code == 200) {
-                                            _this.logining = false;
-                                            sessionStorage.setItem('access-token', JSON.stringify(resp.data.result));
-                                            _this.$router.push({path: '/EmployeeManager'});
-                                        } else {
-                                            _this.logining = false;
-                                            _this.$alert('账号或密码有误，请重新输入！', 'info', {
-                                                confirmButtonText: 'ok'
-                                            })
-                                        }
+                        axios.post("http://localhost:8181/Employee/login", formData)
+                            .then(function (resp) {
+                                if (resp.data == 1) {
+                                    sessionStorage.setItem('employee',_this.ruleForm2.account)
+                                    _this.logining = false;
+                                    _this.$router.push("/")
+                                } else {
+                                    _this.logining = false;
+                                    _this.$alert('账号或密码有误，请重新输入！', 'info', {
+                                        confirmButtonText: 'ok'
                                     })
-                        } else {
-                            console.log('error submit!');
-                            return false;
-                        }
+                                }
+                            })
+                    } else {
+                        console.log('error submit!');
+                        return false;
                     }
-                )
-            }
+                })
+            },
         }
     }
-    ;
 </script>
 <style scoped>
     .login-container {

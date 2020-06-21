@@ -7,10 +7,9 @@
         >
             <el-menu-item style="color:#333;">CRM-MANAGE</el-menu-item>
             <el-submenu index="2" style="float: right">
-                <template slot="title">我的工作台</template>
+                <template slot="title">欢迎,<v-if t></v-if></template>
                 <el-menu-item index="2-1">选项1</el-menu-item>
                 <el-menu-item index="2-2">选项2</el-menu-item>
-                <el-menu-item index="2-3">选项3</el-menu-item>
             </el-submenu>
         </el-menu>
         <el-container style="height:100%; border: 1px solid #eee">

@@ -35,7 +35,6 @@
                         <el-input v-model="ruleForm.custAddress"></el-input>
                     </el-form-item>
                     <el-form-item label="负责人" prop="employee.empId">
-                        <!--                        <el-input v-model="ruleForm.empData.empId" @blur="checkEmployee"></el-input>-->
                         <el-input v-model="ruleForm.empData.empId"></el-input>
                     </el-form-item>
                     <el-form-item>
@@ -291,12 +290,11 @@
                 const _this = this
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var informData = new FormData();
-                        informData.append('custName', this.formInline.custName),
-                            axios.post("http://localhost:8181/Customer/getAllCusts/1/4/", informData).then(function (resp) {
-                                _this.tableData = resp.data.list
-                                _this.total = resp.data.total
-                            });
+                        var qs = require('querystring')
+                        axios.post("http://localhost:8181/Customer/getAllCusts/1/4/", qs.stringify(this.formInline)).then(function (resp) {
+                            _this.tableData = resp.data.list
+                            _this.total = resp.data.total
+                        });
                     } else {
                         return false;
                     }
@@ -354,7 +352,7 @@
                     ],
                 },
                 formInline: {
-                    custName: '',
+                    custName: ''
                 },
             }
         }

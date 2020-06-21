@@ -144,7 +144,7 @@
                         _this.total = resp.data.total
                     })
             },
-            /*提交表单*/
+            /*添加角色信息*/
             submitForm(formName) {
                 const _this = this
                 this.$refs[formName].validate((valid) => {
@@ -174,17 +174,16 @@
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
-
+            /*多条件查询*/
             onsubmit(formName) {
                 const _this = this
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var informData = new FormData();
-                        informData.append('roleName', this.formInline.roleName),
-                            axios.post("http://localhost:8181/Role/getAllRoles/1/4/", informData).then(function (resp) {
-                                _this.tableData = resp.data.list
-                                _this.total = resp.data.total
-                            });
+                        var qs = require('querystring')
+                        axios.post("http://localhost:8181/Role/getAllRoles/1/4/", qs.stringify(this.formInline)).then(function (resp) {
+                            _this.tableData = resp.data.list
+                            _this.total = resp.data.total
+                        });
                     } else {
                         return false;
                     }
@@ -243,17 +242,7 @@
                     }]
                 },
                 formInline: {
-                    empName: '',
-                    account: '',
-                    roleData: [{
-                        roleId: '',
-                        roleName: '',
-                    }],
-                    deptData: [{
-                        deptId: '',
-                        deptName: ''
-                    }],
-                    empWorkTime: '',
+                    roleName: ''
                 },
             }
         }
